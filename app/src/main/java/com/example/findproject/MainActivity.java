@@ -21,7 +21,6 @@ import java.net.URLConnection;
 import java.time.Instant;
 import java.util.regex.Pattern;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -65,24 +64,23 @@ public class MainActivity extends AppCompatActivity {
         boolean isValid = isFieldsValid(username,firstName,lastName,mail,phone);
 
         if(isValid == true){
-            Toast.makeText(getApplicationContext(), username , Toast.LENGTH_LONG).show();
-            startActivity(new Intent(MainActivity.this, ResultActivity.class));
+            //Toast.makeText(getApplicationContext(), "Succesfull !" , Toast.LENGTH_LONG).show();
+            //startActivity(new Intent(MainActivity.this, ResultActivity.class));
+            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+            intent.putExtra("USERNAME", username);
+            intent.putExtra("FIRSTNAME", firstName);
+            intent.putExtra("LASTNAME", lastName);
+            intent.putExtra("MAIL", mail);
+            intent.putExtra("PHONE", phone);
+            startActivity(intent);
 
 
         }else{
-            Toast.makeText(getApplicationContext(), "Wrong" , Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Wrong !" , Toast.LENGTH_LONG).show();
         }
     }
 
-    private void readStream(InputStream in) {
-    }
+  /*  private void readStream(InputStream in) {
+    }*/
 
 }
-/*URL url = new URL("http://www.android.com/");
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection ();
-            try {
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                readStream(in);
-            } finally {
-                urlConnection.disconnect();
-            }*/
