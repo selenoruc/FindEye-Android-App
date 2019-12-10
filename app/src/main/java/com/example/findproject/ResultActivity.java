@@ -21,8 +21,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+
 public class ResultActivity extends AppCompatActivity {
-    int responseCode;
     ArrayList<String> siteList = new ArrayList<String>();//Creating site list
 
     @Override
@@ -41,17 +41,32 @@ public class ResultActivity extends AppCompatActivity {
         siteList.add("https://twitter.com/");
         siteList.add("https://github.com/");
         siteList.add("https://facebook.com/");
+        siteList.add("https://reddit.com/user/");
 
-        if(username.length() != 0){
+        if(username.length() != 0)
+        {
             checkUsernameOnSites(username);
+        }
+
+    }
+
+    public void checkUsernameOnSites(String username)
+    {
+        for (int i=0;i<siteList.size();i++)
+        {
+            String site = siteList.get(i);
+            makeRequest(site,username);
         }
     }
 
-    public int makeRequest(String url) {
-        Log.i("Site : ",url);
+    public void makeRequest(String site, final String username){
+        final TextView resultView = findViewById(R.id.resultView);
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(url).build();
-        //responseCode = 5;
+        final String url = site+username;
+        Log.i("url",url);
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -59,33 +74,31 @@ public class ResultActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException{
-                if(response.isSuccessful()) {
-                    responseCode = response.code();
-                    Log.i("Status code : ", String.valueOf(response.code()));
-                    //Log.i("StatusResponse code : ", String.valueOf(responseCode)); //to check whether we changed responseCode
+            public void onResponse(Call call, Response response) throws IOException {
+                final String responseCode = String.valueOf(response.code());
+                if(response.isSuccessful()){
+                    ResultActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            resultView.append(url+" "+responseCode+"\n");
+                        }
+                    });
+                }else{
+                    ResultActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            resultView.append(url+" "+responseCode+"\n");
+                        }
+                    });
                 }
             }
         });
-        return responseCode;
+
     }
 
-
-
-    protected boolean isUsernameExist(String site){
-        int response = makeRequest(site);
-        Log.i("response code : ",String.valueOf(response));
-        //Log.i("Global responseCode",String.valueOf(responseCode));
-
-        if(response == 200) {
-            return true;
-        }else {
-            return false;
-        }
-    }
 
     /*Username ile bütün listedeki siteler üzerinde döngüyle bakıyor ve bunları isUsernameExist ile kontrol ediyor*/
-    protected void checkUsernameOnSites(String username){
+    /*protected void checkUsernameOnSites(String username){
         TextView resultView = findViewById(R.id.resultView);
 
         for(int i=0; i<siteList.size(); i++) {
@@ -94,12 +107,10 @@ public class ResultActivity extends AppCompatActivity {
             String siteName = seperatedSite[2];
             String url = site + username; //github.com/username
             //Log.i("user sites", url);
-            if(isUsernameExist(url) == true) {
-                resultView.append(siteName+" : "+username+" [+]");
-            }
-            else {
-                resultView.append(siteName+" : "+username+" [-]");
-            }
+            makeRequest(url);
+            //Log.i("ret code ",returnCode);
+            //resultView.append(returnCode);
         }
-    }
+
+    }*/
 }
