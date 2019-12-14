@@ -3,10 +3,13 @@ package com.example.findproject;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -64,7 +67,6 @@ public class ResultActivity extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient();
         final String url = site.getUrl()+username;
         final Button btn = site.getResultButton();
-        Log.i("url",url);
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -115,7 +117,7 @@ public class ResultActivity extends AppCompatActivity {
     public void createButtons()
     {
         for (int i = 0; i < siteList.size(); i++) {
-            Site site = siteList.get(i); //Getting site
+            final Site site = siteList.get(i); //Getting site
             Button myButton = new Button(this); //Creating new button
             myButton.setText(site.getSiteName());  //Setting button text
             myButton.setId(i);  //Setting button id
@@ -124,6 +126,14 @@ public class ResultActivity extends AppCompatActivity {
 
             LinearLayout layout = (LinearLayout) findViewById(R.id.resultLinearLayout);
             layout.addView(myButton);
+
+            myButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Uri uri = Uri.parse(site.getUrl());
+                    Intent goUrlIntent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(goUrlIntent);
+                }
+            });
         }
     }
 
