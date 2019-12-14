@@ -6,20 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ResultActivity">
 
-    <TextView
-        android:id="@+id/textViewResult"
-        android:layout_width="297dp"
-        android:layout_height="52dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="7dp" />
+    <LinearLayout
+        android:id="@+id/resultLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/resultView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewResult" />
 </androidx.constraintlayout.widget.ConstraintLayout>

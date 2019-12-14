@@ -3,10 +3,13 @@ package com.example.findproject;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +26,8 @@ import okhttp3.Response;
 
 
 public class ResultActivity extends AppCompatActivity {
-    ArrayList<String> siteList = new ArrayList<String>();//Creating site list
+    ArrayList<Site> siteList = new ArrayList<Site>();
+    //ArrayList<String> siteList = new ArrayList<String>();//Creating site list
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +41,8 @@ public class ResultActivity extends AppCompatActivity {
         String mail = getIntent().getStringExtra("MAIL");
         String phone = getIntent().getStringExtra("PHONE");
 
-        /* Sites declared */ /* Listeye eklenecek siteler burada ekleniyor */
-        siteList.add("https://twitter.com/");
-        siteList.add("https://github.com/");
-        siteList.add("https://facebook.com/");
-        siteList.add("https://reddit.com/user/");
+        setSites(); //Generating sites
+        createButtons(); //Creating buttons
 
         if(username.length() != 0)
         {
@@ -54,15 +55,15 @@ public class ResultActivity extends AppCompatActivity {
     {
         for (int i=0;i<siteList.size();i++)
         {
-            String site = siteList.get(i);
+            Site site = siteList.get(i);
             makeRequest(site,username);
         }
     }
 
-    public void makeRequest(String site, final String username){
-        final TextView resultView = findViewById(R.id.resultView);
+    public void makeRequest(final Site site, final String username){
         OkHttpClient client = new OkHttpClient();
-        final String url = site+username;
+        final String url = site.getUrl()+username;
+        final Button btn = site.getResultButton();
         Log.i("url",url);
         Request request = new Request.Builder()
                 .url(url)
@@ -80,14 +81,14 @@ public class ResultActivity extends AppCompatActivity {
                     ResultActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            resultView.append(url+" "+responseCode+"\n");
+                            btn.setTextColor(Color.GREEN);
                         }
                     });
                 }else{
                     ResultActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            resultView.append(url+" "+responseCode+"\n");
+                            btn.setTextColor(Color.RED);
                         }
                     });
                 }
@@ -96,21 +97,34 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
+    /* Listeye eklenecek siteler burada ekleniyor */
+    public void setSites(){
+        /* Sites declared */
+        Site twitter = new Site("twitter","https://twitter.com/");
+        Site github = new Site("github","https://github.com/");
+        Site facebook = new Site("facebook","https://facebook.com/");
+        Site reddit = new Site("reddit","https://reddit.com/user/");
 
-    /*Username ile bütün listedeki siteler üzerinde döngüyle bakıyor ve bunları isUsernameExist ile kontrol ediyor*/
-    /*protected void checkUsernameOnSites(String username){
-        TextView resultView = findViewById(R.id.resultView);
+        siteList.add(twitter);
+        siteList.add(github);
+        siteList.add(facebook);
+        siteList.add(reddit);
+    }
 
-        for(int i=0; i<siteList.size(); i++) {
-            String site = siteList.get(i);
-            String[] seperatedSite = site.split("/");
-            String siteName = seperatedSite[2];
-            String url = site + username; //github.com/username
-            //Log.i("user sites", url);
-            makeRequest(url);
-            //Log.i("ret code ",returnCode);
-            //resultView.append(returnCode);
+    /*Creating buttons*/
+    public void createButtons()
+    {
+        for (int i = 0; i < siteList.size(); i++) {
+            Site site = siteList.get(i); //Getting site
+            Button myButton = new Button(this); //Creating new button
+            myButton.setText(site.getSiteName());  //Setting button text
+            myButton.setId(i);  //Setting button id
+            final int id_ = myButton.getId();
+            site.setResultButton(myButton);
+
+            LinearLayout layout = (LinearLayout) findViewById(R.id.resultLinearLayout);
+            layout.addView(myButton);
         }
+    }
 
-    }*/
 }
