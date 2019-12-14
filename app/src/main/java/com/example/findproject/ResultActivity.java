@@ -13,10 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +26,6 @@ import okhttp3.Response;
 
 public class ResultActivity extends AppCompatActivity {
     ArrayList<Site> siteList = new ArrayList<Site>();
-    //ArrayList<String> siteList = new ArrayList<String>();//Creating site list
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +60,11 @@ public class ResultActivity extends AppCompatActivity {
 
     public void makeRequest(final Site site, final String username){
         OkHttpClient client = new OkHttpClient();
+
         final String url = site.getUrl()+username;
+        site.setSearchQuery(url);
         final Button btn = site.getResultButton();
+
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -129,7 +127,7 @@ public class ResultActivity extends AppCompatActivity {
 
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    Uri uri = Uri.parse(site.getUrl());
+                    Uri uri = Uri.parse(site.getSearchQuery());
                     Intent goUrlIntent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(goUrlIntent);
                 }

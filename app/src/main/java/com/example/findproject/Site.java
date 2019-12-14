@@ -5,13 +5,16 @@ import android.widget.Button;
 public class Site {
     private String siteName;
     private String url;
+    private String searchQuery;
     Button resultButton;
 
+    /*Constructors*/
     public Site(String siteName, String url){
         this.siteName = siteName;
         this.url = url;
     }
 
+    /*Getter & Setter methods*/
     public void setSiteName(String siteName){
         this.siteName = siteName;
     }
@@ -32,5 +35,12 @@ public class Site {
     }
     public Button getResultButton(){
         return this.resultButton;
+    }
+
+    public void setSearchQuery(String searchQuery){
+        this.searchQuery = searchQuery;
+    }
+    public String getSearchQuery(){
+        return this.searchQuery;
     }
 }
