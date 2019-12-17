@@ -6,6 +6,7 @@ public class Site {
     private String siteName;
     private String url;
     private String searchQuery;
+    private String usernameSearchUrl;
     Button resultButton;
 
     /*Constructors*/
@@ -42,5 +43,12 @@ public class Site {
     }
     public String getSearchQuery(){
         return this.searchQuery;
+    }
+
+    public void setUsernameSearchUrl(String usernameSearchUrl){
+        this.usernameSearchUrl = usernameSearchUrl;
+    }
+    public String getUsernameSearchUrl(){
+        return this.usernameSearchUrl;
     }
 }

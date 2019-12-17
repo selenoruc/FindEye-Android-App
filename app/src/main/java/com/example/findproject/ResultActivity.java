@@ -54,15 +54,21 @@ public class ResultActivity extends AppCompatActivity {
         for (int i=0;i<siteList.size();i++)
         {
             Site site = siteList.get(i);
-            makeRequest(site,username);
+
+            String searchUsernameUrl = site.getUsernameSearchUrl();
+            searchUsernameUrl = searchUsernameUrl.replace("_USERNAME_",username);
+            site.setUsernameSearchUrl(searchUsernameUrl);
+
+            makeRequest(site);
         }
     }
 
-    public void makeRequest(final Site site, final String username){
+    public void makeRequest(final Site site){
         OkHttpClient client = new OkHttpClient();
 
-        final String url = site.getUrl()+username;
-        site.setSearchQuery(url);
+        final String url = site.getUsernameSearchUrl();
+        Log.i("usernamesearchurl",url);
+
         final Button btn = site.getResultButton();
 
         Request request = new Request.Builder()
@@ -89,6 +95,7 @@ public class ResultActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             btn.setTextColor(Color.RED);
+                            btn.setEnabled(false);
                         }
                     });
                 }
@@ -103,12 +110,25 @@ public class ResultActivity extends AppCompatActivity {
         Site twitter = new Site("twitter","https://twitter.com/");
         Site github = new Site("github","https://github.com/");
         Site facebook = new Site("facebook","https://facebook.com/");
-        Site reddit = new Site("reddit","https://reddit.com/user/");
+        Site reddit = new Site("reddit","https://reddit.com/");
+        Site tumblr = new Site("tumblr","https://www.tumblr.com/");
+        Site linkedin = new Site("linkedin","https://www.linkedin.com/");
+        Site spotify = new Site("spotify","https://www.spotify.com/");
+
+        twitter.setUsernameSearchUrl("https://twitter.com/_USERNAME_");
+        github.setUsernameSearchUrl("https://github.com/_USERNAME_");
+        facebook.setUsernameSearchUrl("https://facebook.com/_USERNAME_");
+        reddit.setUsernameSearchUrl("https://reddit.com/user/_USERNAME_");
+        tumblr.setUsernameSearchUrl("https://_USERNAME_.tumblr.com/");
+        linkedin.setUsernameSearchUrl("https://tr.linkedin.com/in/_USERNAME_");
+        spotify.setUsernameSearchUrl("https://open.spotify.com/user/_USERNAME_");
 
         siteList.add(twitter);
         siteList.add(github);
         siteList.add(facebook);
         siteList.add(reddit);
+        siteList.add(tumblr);
+        siteList.add(linkedin);
     }
 
     /*Creating buttons*/
