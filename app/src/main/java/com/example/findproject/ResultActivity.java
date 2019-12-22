@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -47,6 +48,9 @@ public class ResultActivity extends AppCompatActivity {
             case "Username":
                 checkUsernameOnSites(input);
                 break;
+            case "Name&Surname":
+                checkNameSurnameOnsites(input);
+                break;
         }
 
     }
@@ -61,15 +65,41 @@ public class ResultActivity extends AppCompatActivity {
             searchUsernameUrl = searchUsernameUrl.replace("_USERNAME_",username);
             site.setUsernameSearchUrl(searchUsernameUrl);
 
+            site.setSearchQuery(searchUsernameUrl);
+
             makeRequest(site);
+        }
+    }
+
+    protected void checkNameSurnameOnsites(String nameAndSurname) {
+        String replaceableItems[] = {"",".","-","_"};
+        for(int k=0;k<replaceableItems.length;k++)
+        {
+            String nameSurname = nameAndSurname.replace(" ",replaceableItems[k]);
+            Log.i("nameSurname",nameSurname);
+            for (int i=0;i<siteList.size();i++)
+            {
+                Site site = siteList.get(i);
+                final Button btn = site.getResultButton();
+
+                if(!btn.isEnabled()){
+                    String nameSurnameSearchUrl = site.getNameSurnameSearchUrl();
+                    nameSurnameSearchUrl = nameSurnameSearchUrl.replace("_NAMESURNAME_",nameSurname);
+
+                    site.setSearchQuery(nameSurnameSearchUrl);
+
+                    makeRequest(site);
+                }
+
+            }
         }
     }
 
     public void makeRequest(final Site site){
         OkHttpClient client = new OkHttpClient();
 
-        final String url = site.getUsernameSearchUrl();
-        Log.i("usernamesearchurl",url);
+        final String url = site.getSearchQuery();
+        Log.i("url",url);
 
         final Button btn = site.getResultButton();
 
@@ -89,7 +119,9 @@ public class ResultActivity extends AppCompatActivity {
                     ResultActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            btn.setEnabled(true);
                             btn.setTextColor(Color.GREEN);
+                            Log.i("SuccessUrl",url);
                         }
                     });
                 }else{
@@ -97,7 +129,7 @@ public class ResultActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             btn.setTextColor(Color.RED);
-                            btn.setEnabled(false);
+                            //btn.setEnabled(false);
                         }
                     });
                 }
@@ -127,6 +159,15 @@ public class ResultActivity extends AppCompatActivity {
         linkedin.setUsernameSearchUrl("https://tr.linkedin.com/in/_USERNAME_");
         spotify.setUsernameSearchUrl("https://open.spotify.com/user/_USERNAME_");
 
+        twitter.setNameSurnameSearchUrl("https://twitter.com/_NAMESURNAME_");
+        instagram.setNameSurnameSearchUrl("https://www.instagram.com/_NAMESURNAME_");
+        github.setNameSurnameSearchUrl("https://github.com/_NAMESURNAME_");
+        facebook.setNameSurnameSearchUrl("https://facebook.com/_NAMESURNAME_");
+        reddit.setNameSurnameSearchUrl("https://reddit.com/user/_NAMESURNAME_");
+        tumblr.setNameSurnameSearchUrl("https://_NAMESURNAME_.tumblr.com/");
+        linkedin.setNameSurnameSearchUrl("https://tr.linkedin.com/in/_NAMESURNAME_");
+        spotify.setNameSurnameSearchUrl("https://open.spotify.com/user/_NAMESURNAME_");
+
         siteList.add(twitter);
         siteList.add(instagram);
         siteList.add(github);
@@ -146,13 +187,14 @@ public class ResultActivity extends AppCompatActivity {
             myButton.setId(i);  //Setting button id
             final int id_ = myButton.getId();
             site.setResultButton(myButton);
+            myButton.setEnabled(false); //Setting button enable to false
 
             LinearLayout layout = (LinearLayout) findViewById(R.id.resultLinearLayout);
             layout.addView(myButton);
 
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    Uri uri = Uri.parse(site.getUsernameSearchUrl());
+                    Uri uri = Uri.parse(site.getSearchQuery());
                     Intent goUrlIntent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(goUrlIntent);
                 }
