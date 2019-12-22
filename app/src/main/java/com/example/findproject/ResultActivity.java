@@ -33,18 +33,20 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         /* User Values */ /*Ilk activite den gelen veriler*/
-        String username = getIntent().getStringExtra("USERNAME");
-        String firstName = getIntent().getStringExtra("FIRSTNAME");
-        String lastName = getIntent().getStringExtra("LASTNAME");
-        String mail = getIntent().getStringExtra("MAIL");
-        String phone = getIntent().getStringExtra("PHONE");
+        String input = getIntent().getStringExtra("INPUT_VALUE");
+        String inputType = getIntent().getStringExtra("INPUT_TYPE");
+
+        Log.i("input",input);
+        Log.i("type",inputType);
 
         setSites(); //Generating sites
         createButtons(); //Creating buttons
 
-        if(username.length() != 0)
+        switch (inputType)
         {
-            checkUsernameOnSites(username);
+            case "Username":
+                checkUsernameOnSites(input);
+                break;
         }
 
     }
@@ -108,6 +110,7 @@ public class ResultActivity extends AppCompatActivity {
     public void setSites(){
         /* Sites declared */
         Site twitter = new Site("twitter","https://twitter.com/");
+        Site instagram = new Site("instagram","https://www.instagram.com/");
         Site github = new Site("github","https://github.com/");
         Site facebook = new Site("facebook","https://facebook.com/");
         Site reddit = new Site("reddit","https://reddit.com/");
@@ -116,6 +119,7 @@ public class ResultActivity extends AppCompatActivity {
         Site spotify = new Site("spotify","https://www.spotify.com/");
 
         twitter.setUsernameSearchUrl("https://twitter.com/_USERNAME_");
+        instagram.setUsernameSearchUrl("https://www.instagram.com/_USERNAME_");
         github.setUsernameSearchUrl("https://github.com/_USERNAME_");
         facebook.setUsernameSearchUrl("https://facebook.com/_USERNAME_");
         reddit.setUsernameSearchUrl("https://reddit.com/user/_USERNAME_");
@@ -124,6 +128,7 @@ public class ResultActivity extends AppCompatActivity {
         spotify.setUsernameSearchUrl("https://open.spotify.com/user/_USERNAME_");
 
         siteList.add(twitter);
+        siteList.add(instagram);
         siteList.add(github);
         siteList.add(facebook);
         siteList.add(reddit);
@@ -147,7 +152,7 @@ public class ResultActivity extends AppCompatActivity {
 
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    Uri uri = Uri.parse(site.getSearchQuery());
+                    Uri uri = Uri.parse(site.getUsernameSearchUrl());
                     Intent goUrlIntent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(goUrlIntent);
                 }

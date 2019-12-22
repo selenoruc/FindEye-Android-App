@@ -5,20 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.time.Instant;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,57 +25,123 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createSpinner(); //Creating and Populating Spinner
     }
 
-    public boolean isFieldsValid(String username, String firstName, String lastName, String mail, String phone){
-        if(username.length() == 0 && mail.length() == 0){
+    /*Check whether username valid or not*/
+    public boolean isUsernameValid(String username){
+        if(username.length() == 0){
             return false;
+        }else{
+            return true;
         }
+    }
+
+    /*Check whether name and surname valid or not*/
+    public boolean isNameSurnameValid(String nameSurname){
+        if(nameSurname.length() == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    /*Check whether mail valid or not*/
+    public boolean isMailValid(String mail){
         if(mail.length() != 0){
             return Pattern.matches(EMAIL_REGEX, mail);
+        }else {
+            return false;
         }
-        if(phone.length() != 0){
-            return Pattern.matches(PHONE_REGEX, phone);
-        }
-        return true;
     }
 
-    public void clickSearch(View view) {
-        EditText txtUsername = findViewById(R.id.txtUsername);
-        String username =  txtUsername.getText().toString();
+    /*Check whether phone valid or not*/
+    public boolean isPhoneValid(String phone){
+        if(phone.length() != 0){
+            return Pattern.matches(PHONE_REGEX, phone);
+        }else{
+            return false;
+        }
+    }
 
-        EditText txtFirstName = findViewById(R.id.txtFirstName);
-        String firstName =  txtFirstName.getText().toString();
+    public boolean isFieldsValid(String input,String selectedItem)
+    {
+        if(selectedItem == "Username"){
+            return isUsernameValid(input);
+        }else if(selectedItem == "Name&Surname"){
+            return isNameSurnameValid(input);
+        }else if(selectedItem == "Mail"){
+            return isMailValid(input);
+        }else if(selectedItem == "Phone"){
+            return isPhoneValid(input);
+        }else{
+            return false;
+        }
+    }
 
-        EditText txtLastName = findViewById(R.id.txtLastName);
-        String lastName =  txtLastName.getText().toString();
+    /*Change input type of input(EditText) field*/
+    public void changeInputType(String inputType){
+        final EditText input = findViewById(R.id.txtInput);
+        if(inputType == "Username"){
+            input.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+            input.setHint("Username");
+        }else if(inputType == "Name&Surname"){
+            input.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+            input.setHint("Name Surname");
+        }else if(inputType == "Mail"){
+            input.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS);
+            input.setHint("Mail");
+        }else if(inputType == "Phone"){
+            input.setInputType(InputType.TYPE_CLASS_PHONE);
+            input.setHint("Phone (5XX XXX XX XX)");
+        }
+    }
 
-        EditText txtMail = findViewById(R.id.txtMail);
-        String mail =  txtMail.getText().toString();
+    /*Use for populate spinner*/
+    public void createSpinner(){
+        final String[] spinnerParameters = { "Username", "Name&Surname", "Mail", "Phone"};
+        final Spinner selectionSpinner = findViewById(R.id.selectionSpinner);
+        final EditText input = findViewById(R.id.txtInput);
 
-        EditText txtPhone = findViewById(R.id.txtPhone);
-        String phone =  txtPhone.getText().toString();
+        /*Setting adapter for spinner*/
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,spinnerParameters);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        selectionSpinner.setAdapter(adapter);
 
-        boolean isValid = isFieldsValid(username,firstName,lastName,mail,phone);
+        /*Spinner OnItemSelectListener*/
+        selectionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String inputType = selectionSpinner.getSelectedItem().toString();
+                changeInputType(inputType);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing
+            }
+
+        });
+    }
+
+    public void clickSearch(View view){
+        final EditText txtInput = findViewById(R.id.txtInput);
+        final Spinner selectionSpinner = findViewById(R.id.selectionSpinner);
+
+        String input = txtInput.getText().toString();
+        String selectedItem = selectionSpinner.getSelectedItem().toString();
+
+        boolean isValid = isFieldsValid(input,selectedItem);
 
         if(isValid == true){
-            //Toast.makeText(getApplicationContext(), "Succesfull !" , Toast.LENGTH_LONG).show();
-            //startActivity(new Intent(MainActivity.this, ResultActivity.class));
             Intent intent = new Intent(MainActivity.this, ResultActivity.class);
-            intent.putExtra("USERNAME", username);
-            intent.putExtra("FIRSTNAME", firstName);
-            intent.putExtra("LASTNAME", lastName);
-            intent.putExtra("MAIL", mail);
-            intent.putExtra("PHONE", phone);
+            intent.putExtra("INPUT_VALUE", input);
+            intent.putExtra("INPUT_TYPE", selectedItem);
             startActivity(intent);
-
 
         }else{
             Toast.makeText(getApplicationContext(), "Wrong !" , Toast.LENGTH_LONG).show();
         }
     }
-
-  /*  private void readStream(InputStream in) {
-    }*/
 
 }

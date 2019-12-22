@@ -30,7 +30,6 @@ public class Site {
         return this.url;
     }
 
-
     public void setResultButton(Button resultButton){
         this.resultButton = resultButton;
     }
