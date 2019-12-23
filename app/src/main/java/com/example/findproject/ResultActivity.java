@@ -141,6 +141,7 @@ public class ResultActivity extends AppCompatActivity {
         Site linkedin   = new Site("linkedin","https://www.linkedin.com/");
         Site spotify    = new Site("spotify","https://www.spotify.com/");
         Site pinterest  = new Site("pinterest","https://www.pinterest.com/");
+        //Site domainCom = new Site("domainCom","https://.com");
 
         /* Sites added to search by username */
         twitter.setUsernameSearchUrl("https://twitter.com/_USERNAME_");
@@ -152,6 +153,7 @@ public class ResultActivity extends AppCompatActivity {
         linkedin.setUsernameSearchUrl("https://tr.linkedin.com/in/_USERNAME_");
         spotify.setUsernameSearchUrl("https://open.spotify.com/user/_USERNAME_");
         pinterest.setUsernameSearchUrl("https://www.pinterest.com/_USERNAME_");
+        //domainCom.setUsernameSearchUrl("https://www._USERNAME_.com");
 
         /* Sites added to search by name and surname */
         twitter.setNameSurnameSearchUrl("https://twitter.com/_NAMESURNAME_");
@@ -163,6 +165,10 @@ public class ResultActivity extends AppCompatActivity {
         linkedin.setNameSurnameSearchUrl("https://tr.linkedin.com/in/_NAMESURNAME_");
         spotify.setNameSurnameSearchUrl("https://open.spotify.com/user/_NAMESURNAME_");
         pinterest.setNameSurnameSearchUrl("https://www.pinterest.com/_NAMESURNAME_");
+        //domainCom.setNameSurnameSearchUrl("https://www._NAMESURNAME_.com");
+
+        /* Set Domain sites */
+
 
         /* Sites adding on the list */
         siteList.add(twitter);
