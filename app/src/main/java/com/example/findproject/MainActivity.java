@@ -19,10 +19,10 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
 
     /* REGEX can improve */
-    final String USERNAME_REGEX = "^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
-    final String NAME_SURNAME_REGEX = "(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$"; //"[A-Za-z\\+]+[\\s]+[\\A-Za-z\\+]";
-    final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    final String PHONE_REGEX = "\\b5[0-9]{9}\\b";
+    final String USERNAME_REGEX     = "^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
+    final String NAME_SURNAME_REGEX = "^([a-zA-Z]+\\s{1}[a-zA-Z]+)$";
+    final String EMAIL_REGEX        = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    final String PHONE_REGEX        = "\\b5[0-9]{9}\\b";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
