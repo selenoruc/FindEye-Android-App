@@ -41,7 +41,7 @@ public class ResultActivity extends AppCompatActivity {
         Log.i("type",inputType);
 
         setSites(); //Generating sites
-        createButtons(); //Creating buttons
+        //createButtons(); //Creating buttons
 
         switch (inputType)
         {
@@ -80,17 +80,13 @@ public class ResultActivity extends AppCompatActivity {
             for (int i=0;i<siteList.size();i++)
             {
                 Site site = siteList.get(i);
-                final Button btn = site.getResultButton();
 
-                if(!btn.isEnabled()){
-                    String nameSurnameSearchUrl = site.getNameSurnameSearchUrl();
-                    nameSurnameSearchUrl = nameSurnameSearchUrl.replace("_NAMESURNAME_",nameSurname);
+                String nameSurnameSearchUrl = site.getNameSurnameSearchUrl();
+                nameSurnameSearchUrl = nameSurnameSearchUrl.replace("_NAMESURNAME_",nameSurname);
 
-                    site.setSearchQuery(nameSurnameSearchUrl);
+                site.setSearchQuery(nameSurnameSearchUrl);
 
-                    makeRequest(site);
-                }
-
+                makeRequest(site);
             }
         }
     }
@@ -99,9 +95,6 @@ public class ResultActivity extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient();
 
         final String url = site.getSearchQuery();
-        Log.i("url",url);
-
-        final Button btn = site.getResultButton();
 
         Request request = new Request.Builder()
                 .url(url)
@@ -119,8 +112,7 @@ public class ResultActivity extends AppCompatActivity {
                     ResultActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            btn.setEnabled(true);
-                            btn.setTextColor(Color.GREEN);
+                            createButton(site.getSiteName(),url); //If exist creating button
                             Log.i("SuccessUrl",url);
                         }
                     });
@@ -128,8 +120,7 @@ public class ResultActivity extends AppCompatActivity {
                     ResultActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            btn.setTextColor(Color.RED);
-                            //btn.setEnabled(false);
+                            // do nothing
                         }
                     });
                 }
@@ -178,7 +169,7 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     /*Creating buttons*/
-    public void createButtons()
+    /*public void createButtons()
     {
         for (int i = 0; i < siteList.size(); i++) {
             final Site site = siteList.get(i); //Getting site
@@ -200,6 +191,24 @@ public class ResultActivity extends AppCompatActivity {
                 }
             });
         }
+    }*/
+
+    public void createButton(String siteName, final String url)
+    {
+        Button myButton = new Button(this); //Creating new button
+        myButton.setText(siteName);  //Setting button text
+        myButton.setTextColor(Color.GREEN);
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.resultLinearLayout);
+        layout.addView(myButton);
+
+        myButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Uri uri = Uri.parse(url);
+                Intent goUrlIntent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(goUrlIntent);
+            }
+        });
     }
 
 }
