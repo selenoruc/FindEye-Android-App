@@ -129,18 +129,20 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
-    /* Listeye eklenecek siteler burada ekleniyor */
+    /* Adding list of sites to search */
     public void setSites(){
         /* Sites declared */
-        Site twitter = new Site("twitter","https://twitter.com/");
-        Site instagram = new Site("instagram","https://www.instagram.com/");
-        Site github = new Site("github","https://github.com/");
-        Site facebook = new Site("facebook","https://facebook.com/");
-        Site reddit = new Site("reddit","https://reddit.com/");
-        Site tumblr = new Site("tumblr","https://www.tumblr.com/");
-        Site linkedin = new Site("linkedin","https://www.linkedin.com/");
-        Site spotify = new Site("spotify","https://www.spotify.com/");
+        Site twitter    = new Site("twitter","https://twitter.com/");
+        Site instagram  = new Site("instagram","https://www.instagram.com/");
+        Site github     = new Site("github","https://github.com/");
+        Site facebook   = new Site("facebook","https://facebook.com/");
+        Site reddit     = new Site("reddit","https://reddit.com/");
+        Site tumblr     = new Site("tumblr","https://www.tumblr.com/");
+        Site linkedin   = new Site("linkedin","https://www.linkedin.com/");
+        Site spotify    = new Site("spotify","https://www.spotify.com/");
+        Site pinterest  = new Site("pinterest","https://www.pinterest.com/");
 
+        /* Sites added to search by username */
         twitter.setUsernameSearchUrl("https://twitter.com/_USERNAME_");
         instagram.setUsernameSearchUrl("https://www.instagram.com/_USERNAME_");
         github.setUsernameSearchUrl("https://github.com/_USERNAME_");
@@ -149,7 +151,9 @@ public class ResultActivity extends AppCompatActivity {
         tumblr.setUsernameSearchUrl("https://_USERNAME_.tumblr.com/");
         linkedin.setUsernameSearchUrl("https://tr.linkedin.com/in/_USERNAME_");
         spotify.setUsernameSearchUrl("https://open.spotify.com/user/_USERNAME_");
+        pinterest.setUsernameSearchUrl("https://www.pinterest.com/_USERNAME_");
 
+        /* Sites added to search by name and surname */
         twitter.setNameSurnameSearchUrl("https://twitter.com/_NAMESURNAME_");
         instagram.setNameSurnameSearchUrl("https://www.instagram.com/_NAMESURNAME_");
         github.setNameSurnameSearchUrl("https://github.com/_NAMESURNAME_");
@@ -158,7 +162,9 @@ public class ResultActivity extends AppCompatActivity {
         tumblr.setNameSurnameSearchUrl("https://_NAMESURNAME_.tumblr.com/");
         linkedin.setNameSurnameSearchUrl("https://tr.linkedin.com/in/_NAMESURNAME_");
         spotify.setNameSurnameSearchUrl("https://open.spotify.com/user/_NAMESURNAME_");
+        pinterest.setNameSurnameSearchUrl("https://www.pinterest.com/_NAMESURNAME_");
 
+        /* Sites adding on the list */
         siteList.add(twitter);
         siteList.add(instagram);
         siteList.add(github);
@@ -166,32 +172,8 @@ public class ResultActivity extends AppCompatActivity {
         siteList.add(reddit);
         siteList.add(tumblr);
         siteList.add(linkedin);
+
     }
-
-    /*Creating buttons*/
-    /*public void createButtons()
-    {
-        for (int i = 0; i < siteList.size(); i++) {
-            final Site site = siteList.get(i); //Getting site
-            Button myButton = new Button(this); //Creating new button
-            myButton.setText(site.getSiteName());  //Setting button text
-            myButton.setId(i);  //Setting button id
-            final int id_ = myButton.getId();
-            site.setResultButton(myButton);
-            myButton.setEnabled(false); //Setting button enable to false
-
-            LinearLayout layout = (LinearLayout) findViewById(R.id.resultLinearLayout);
-            layout.addView(myButton);
-
-            myButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    Uri uri = Uri.parse(site.getSearchQuery());
-                    Intent goUrlIntent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(goUrlIntent);
-                }
-            });
-        }
-    }*/
 
     public void createButton(String siteName, final String url)
     {
