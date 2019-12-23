@@ -140,8 +140,10 @@ public class ResultActivity extends AppCompatActivity {
         Site tumblr     = new Site("tumblr","https://www.tumblr.com/");
         Site linkedin   = new Site("linkedin","https://www.linkedin.com/");
         Site spotify    = new Site("spotify","https://www.spotify.com/");
-        Site pinterest  = new Site("pinterest","https://www.pinterest.com/");
-        //Site domainCom = new Site("domainCom","https://.com");
+        Site pinterest  = new Site("pinterest","https://tr.pinterest.com/");
+        Site domainCom  = new Site("domainCom","https://www.google.com/");
+        Site domainNet  = new Site("domainNet","https://www.google.com/");
+        Site domainOrg  = new Site("domainOrg","https://www.google.com/");
 
         /* Sites added to search by username */
         twitter.setUsernameSearchUrl("https://twitter.com/_USERNAME_");
@@ -152,8 +154,10 @@ public class ResultActivity extends AppCompatActivity {
         tumblr.setUsernameSearchUrl("https://_USERNAME_.tumblr.com/");
         linkedin.setUsernameSearchUrl("https://tr.linkedin.com/in/_USERNAME_");
         spotify.setUsernameSearchUrl("https://open.spotify.com/user/_USERNAME_");
-        pinterest.setUsernameSearchUrl("https://www.pinterest.com/_USERNAME_");
-        //domainCom.setUsernameSearchUrl("https://www._USERNAME_.com");
+        pinterest.setUsernameSearchUrl("https://tr.pinterest.com/_USERNAME_");
+        domainCom.setUsernameSearchUrl("https://_USERNAME_.com");
+        domainNet.setUsernameSearchUrl("https://_USERNAME_.net");
+        domainOrg.setUsernameSearchUrl("https://_USERNAME_.org");
 
         /* Sites added to search by name and surname */
         twitter.setNameSurnameSearchUrl("https://twitter.com/_NAMESURNAME_");
@@ -164,11 +168,10 @@ public class ResultActivity extends AppCompatActivity {
         tumblr.setNameSurnameSearchUrl("https://_NAMESURNAME_.tumblr.com/");
         linkedin.setNameSurnameSearchUrl("https://tr.linkedin.com/in/_NAMESURNAME_");
         spotify.setNameSurnameSearchUrl("https://open.spotify.com/user/_NAMESURNAME_");
-        pinterest.setNameSurnameSearchUrl("https://www.pinterest.com/_NAMESURNAME_");
-        //domainCom.setNameSurnameSearchUrl("https://www._NAMESURNAME_.com");
-
-        /* Set Domain sites */
-
+        pinterest.setNameSurnameSearchUrl("https://tr.pinterest.com/_NAMESURNAME_");
+        domainCom.setNameSurnameSearchUrl("https://_NAMESURNAME_.com");
+        domainNet.setNameSurnameSearchUrl("https://_NAMESURNAME_.net");
+        domainOrg.setNameSurnameSearchUrl("https://_NAMESURNAME_.org");
 
         /* Sites adding on the list */
         siteList.add(twitter);
@@ -178,7 +181,10 @@ public class ResultActivity extends AppCompatActivity {
         siteList.add(reddit);
         siteList.add(tumblr);
         siteList.add(linkedin);
-
+        siteList.add(pinterest);
+        siteList.add(domainCom);
+        siteList.add(domainNet);
+        siteList.add(domainOrg);
     }
 
     public void createButton(String siteName, final String url)
