@@ -18,8 +18,10 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    private static final String PHONE_REGEX = "\\d{10}";
+    final String USERNAME_REGEX = "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
+    final String NAMESURNAME_REGEX = "(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
+    final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    final String PHONE_REGEX = "\\b5[0-9]{9}\\b";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,52 +30,26 @@ public class MainActivity extends AppCompatActivity {
         createSpinner(); //Creating and Populating Spinner
     }
 
-    /*Check whether username valid or not*/
-    public boolean isUsernameValid(String username){
-        if(username.length() == 0){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
-    /*Check whether name and surname valid or not*/
-    public boolean isNameSurnameValid(String nameSurname){
-        if(nameSurname.length() == 0){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
-    /*Check whether mail valid or not*/
-    public boolean isMailValid(String mail){
-        if(mail.length() != 0){
-            return Pattern.matches(EMAIL_REGEX, mail);
-        }else {
-            return false;
-        }
-    }
-
-    /*Check whether phone valid or not*/
-    public boolean isPhoneValid(String phone){
-        if(phone.length() != 0){
-            return Pattern.matches(PHONE_REGEX, phone);
+    /*Check whether value valid or not with REGEX*/
+    public boolean isValueValid (String REGEX,String value){
+        if(value.length() != 0){
+            return Pattern.matches(REGEX, value);
         }else{
             return false;
         }
     }
 
+    /* Check is field valid for the input type */
     public boolean isFieldsValid(String input,String selectedItem)
     {
         if(selectedItem == "Username"){
-            return isUsernameValid(input);
+            return isValueValid(USERNAME_REGEX,input);
         }else if(selectedItem == "Name&Surname"){
-            return isNameSurnameValid(input);
+            return isValueValid(NAMESURNAME_REGEX,input);
         }else if(selectedItem == "Mail"){
-            return isMailValid(input);
+            return isValueValid(EMAIL_REGEX,input);
         }else if(selectedItem == "Phone"){
-            return isPhoneValid(input);
+            return isValueValid(PHONE_REGEX,input);
         }else{
             return false;
         }
