@@ -13,19 +13,19 @@ Then you can edit it on [Android Studio](https://developer.android.com/studio) o
 
 As you open the application on an Android device, you'll see an homepage like that
 
-<img src="https://github.com/selenkutanoglu/AndroidApp/blob/master/screenshots/home.jpg" width="250">
+<img src="./screenshots/home.jpg" width="250">
 
 You can select your input type
 
-<img src="https://github.com/selenkutanoglu/AndroidApp/blob/master/screenshots/spinner.jpg" width="250">
+<img src="./screenshots/spinner.jpg" width="250">
 
 After you entered the input you can click on Search button
 
-<img src="https://github.com/selenkutanoglu/AndroidApp/blob/master/screenshots/username.jpg" width="250">
+<img src="./screenshots/username.jpg" width="250">
 
 According to the input you entered, application will return the site links by the http responses. All **Http OK** responses are shown in the **ResultActivity** with site buttons
 
-<img src="https://github.com/selenkutanoglu/AndroidApp/blob/master/screenshots/result_links.jpg" width="250">
+<img src="./screenshots/result_links.jpg" width="250">
 
 You can see te account webpage via cllicking on the buttons
 
